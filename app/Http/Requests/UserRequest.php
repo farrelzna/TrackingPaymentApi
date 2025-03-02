@@ -17,7 +17,6 @@ class UserRequest
         $rules = [
             'name' => 'required|min:3|max:255',
             'email' => 'required|email',
-            'phone' => 'required|numeric|min:11',
             'address' => 'required',
             'password' => 'required|string|min:8',
             'role' => 'required|in:' . implode(',', [

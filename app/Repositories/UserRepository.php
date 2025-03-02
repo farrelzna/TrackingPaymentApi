@@ -6,7 +6,7 @@ use App\Models\User;
 
 // memisahkan logika data dengan controller , jadi isinya berupa fungsi-fungsi orm / eloquent dengan model
 
-class USerRepositories
+class USerRepository
 {
     public function getAllUser()
     {

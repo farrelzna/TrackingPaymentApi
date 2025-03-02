@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Models;
-
+    
+use App\Models\WebhookLog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
@@ -12,22 +13,31 @@ class Transaction extends Model
     use HasFactory, SoftDeletes, HasUlids;
 
     protected $table = 'transactions';
-    public $incrementing = false;
     protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
-        'transaction_id', 'user_id', 'payment_method_id', 'amount',
-        'currency', 'status_id', 'payment_reference', 'expired_at'
+        'id',
+        'user_id',
+        'payment_method_id',
+        'transaction_number',
+        'transaction_date',
+        'status',
+    ];
+
+    protected $casts = [
+        'id' => 'string',
+        'transaction_date' => 'datetime',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function paymentMethod()
     {
-        return $this->belongsTo(PaymentMethod::class);
+        return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
     }
 
     public function status()
@@ -35,8 +45,13 @@ class Transaction extends Model
         return $this->belongsTo(TransactionStatus::class, 'status_id');
     }
 
-    public function refunds()
+    public function webhookLog()
     {
-        return $this->hasOne(Refund::class);
+        return $this->hasOne(WebhookLog::class, 'transaction_id');
+    }
+
+    public function refund()
+    {
+        return $this->hasOne(Refund::class, 'transaction_id');
     }
 }

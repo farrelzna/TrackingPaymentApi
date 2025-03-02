@@ -17,15 +17,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     use Authenticatable, Authorizable, HasFactory, HasUlids, SoftDeletes;
 
     protected $table = 'users';
-    public $incrementing = false;
     protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
-        'name', 'email', 'phone', 'password','address', 'role', 'status'
-    ];
-
-    protected $hidden = [
-        'password'
+        'name', 'email', 'password','address', 'role'
     ];
 
     public const ADMIN = 'admin';
@@ -41,10 +37,16 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
     public function transactions()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Transaction::class, 'user_id');
     }
     public function notifications()
     {
         return $this->hasMany(Notification::class);
+    }
+
+    // Helper untuk cek role
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
     }
 }

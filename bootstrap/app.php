@@ -24,10 +24,13 @@ $app = new Laravel\Lumen\Application(
 );
 
 $app->withFacades();
-
 $app->withEloquent();
-
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+$app->register(Illuminate\Validation\ValidationServiceProvider::class);
+
+// $app->loadEnvironmentFrom('.env');
+// $app->configure('database');
+
 
 /*
 |--------------------------------------------------------------------------

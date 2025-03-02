@@ -13,13 +13,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('notifications', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->uuid('user_id');
             $table->uuid('transaction_id')->nullable();
             $table->string('type');
             $table->string('message');
             $table->boolean('is_read')->default(false);
-            $table->SoftDeletes();
             $table->timestamps();
 
             // Foreign Keys

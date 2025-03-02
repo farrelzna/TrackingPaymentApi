@@ -11,16 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('refunds', function (Blueprint $table) {
+        Schema::create('webhook_logs', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('transaction_number');
-            $table->decimal('refund_amount', 10, 2);
-            $table->string('reason')->nullable();
-            $table->timestamp('refunded_at')->nullable();
+            $table->string('transaction_number')->nullable();
+            $table->string('event_type');
+            $table->json('payload');
             $table->timestamps();
-
-            // Foreign Key
-            // $table->foreign('transaction_id')->references('id')->on('transactions');
         });
     }
 
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('refunds');
+        Schema::dropIfExists('webhook_logs');
     }
 };

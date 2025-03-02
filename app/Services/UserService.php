@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repositories\UserRepositories;
+use App\Repositories\USerRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -10,15 +10,15 @@ use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
-    private $userRepositories;
-    public function __construct(UserRepositories $userRepositories)
+    private $userRepository;
+    public function __construct(UserRepository $userRepository)
     {
-        $this->userRepositories = $userRepositories;
+        $this->userRepository = $userRepository;
     }
 
     public function index()
     {
-        return $this->userRepositories->getAllUser();
+        return $this->userRepository->getAllUser();
     }
 
     public function login(array $data)
@@ -42,7 +42,7 @@ class UserService
 
     public function show($id)
     {
-        return $this->userRepositories->getSpecificUser($id);
+        return $this->userRepository->getSpecificUser($id);
     }
 
     public function showAuth()
@@ -55,12 +55,12 @@ class UserService
         // 
         $data['password'] = Hash::make($data['password']);
 
-        return $this->userRepositories->storeNewUser($data);
+        return $this->userRepository->storeNewUser($data);
     }
 
     public function update(array $data, $id)
     {
-        return $this->userRepositories->updateUser($data, $id);
+        return $this->userRepository->updateUser($data, $id);
     }
 
     public function logout()
@@ -72,21 +72,21 @@ class UserService
 
     public function trash()
     {
-        return $this->userRepositories->getTrash();
+        return $this->userRepository->getTrash();
     }
 
     public function destroy($id)
     {
-        return $this->userRepositories->deleteUser($id);
+        return $this->userRepository->deleteUser($id);
     }
 
     public function restore($id)
     {
-        return $this->userRepositories->restoreTrash($id);
+        return $this->userRepository->restoreTrash($id);
     }
 
     public function permanentDelete($id)
     {
-        return $this->userRepositories->permanentDeleteTrash($id);
+        return $this->userRepository->permanentDeleteTrash($id);
     }
 }

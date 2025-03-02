@@ -28,8 +28,27 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
         $router->patch('/update/{id}', 'UserController@update');
         $router->delete('/{id}', 'UserController@destroy');
     });
+
+    $router->group(['prefix' => 'transactions'], function () use ($router) {
+        $router->post('/', 'TransactionController@store');
+        $router->get('/{transactionNumber}', 'TransactionController@checkStatus');
+        $router->get('/{transactionNumber}/status', 'TransactionController@getStatus');
+        $router->put('/{transactionNumber}/status/{status}', 'TransactionController@updateStatus');
+    });
+
+    // webhooks
+    $router->post('/webhook', 'WebhookController@handle');
+
+    // Refund
+    $router->post('/refund', 'RefundController@refund');
+
+    // Notifikasi
+    $router->get('/notifications/{userId}', 'NotificationController@getUserNotifications');
     
+    // melihat akun yang sedang login
     $router->get('/me', 'UserController@me');
+
+    // logout
     $router->post('/logout', 'UserController@logout');
 });
 

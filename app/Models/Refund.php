@@ -9,18 +9,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Refund extends Model
 {
-    use HasFactory, SoftDeletes, HasUlids;
+    use HasFactory, HasUlids;
 
     protected $table = 'refunds';
-    public $incrementing = false;
     protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
-        'transaction_id', 'amount', 'refund_method', 'reason', 'status', 'processed_at'
+        'transaction_number', 'refund_amount', 'reason', 'refunded_at',
     ];
+    protected $dates = ['refunded_at'];
 
     public function transaction()
     {
-        return $this->belongsTo(Transaction::class);
+        return $this->belongsTo(Transaction::class, 'transaction_id');
     }
 }
