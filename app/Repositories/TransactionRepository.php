@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Transaction;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionRepository
 {
@@ -15,14 +17,7 @@ class TransactionRepository
 
     public function create(array $data)
     {
-        return $this->model->create([
-            'id' => $data['id'],
-            'user_id' => $data['user_id'],
-            'payment_method_id' => $data['payment_method_id'],
-            'transaction_number' => $data['transaction_number'],
-            'transaction_date' => $data['transaction_date'],
-            'status' => $data['status'],
-        ]);
+       return Transaction::create($data);
     }
 
     public function findByTransactionNumber($transactionNumber)

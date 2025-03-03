@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('user_id');
             $table->uuid('transaction_id')->nullable();
-            $table->string('type');
+            $table->string('title');
             $table->string('message');
             $table->boolean('is_read')->default(false);
             $table->timestamps();

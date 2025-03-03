@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\TransactionService;
 use App\Http\Requests\CreateTransactionRequest;
 use App\Http\Resources\TransactionResource;
+use App\Models\Transaction;
 
 class TransactionController extends Controller
 {
@@ -17,15 +18,18 @@ class TransactionController extends Controller
     }
 
     // Buat Transaksi Baru
-    public function store(CreateTransactionRequest $request)
+    public function store(Request $request)
     {
-        $transaction = $this->transactionService->createTransaction($request->getValidatedData());
+        $validatedData = CreateTransactionRequest::validate($request);
+        $transaction = Transaction::create($validatedData);
     
         return response()->json([
-        'message' => 'Transaksi berhasil dibuat',
-            'data' => $transaction,
+            'status' => 'success',
+            'message' => 'Transaction created successfully',
+            'data' => $transaction
         ], 201);
     }
+    
 
     public function getStatus($transactionNumber)
     {

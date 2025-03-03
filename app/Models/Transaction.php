@@ -17,12 +17,12 @@ class Transaction extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'id',
         'user_id',
         'payment_method_id',
         'transaction_number',
-        'transaction_date',
-        'status',
+        'currency',
+        'amount',
+        'status_id',
     ];
 
     protected $casts = [

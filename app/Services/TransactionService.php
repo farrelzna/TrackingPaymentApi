@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\Transaction;
 use Illuminate\Support\Str;
 use App\Repositories\TransactionRepository;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionService
 {
@@ -16,8 +17,12 @@ class TransactionService
 
     public function createTransaction(array $data)
     {
-        $data['id'] = Str::uuid()->toString();
-        return $this->transactionRepository->create($data);
+        return $this->transactionRepository->create([
+            'user_id' => Auth::user()->id,
+            'payment_method_id' => $data['payment_method_id'],
+            'transaction_number' => $data['transaction_number'],
+            'status' => $data['status'],
+        ]);
     }
 
     public function getTransactionStatus($transactionNumber)
